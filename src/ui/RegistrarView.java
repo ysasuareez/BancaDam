@@ -233,7 +233,7 @@ public class RegistrarView {
 				}
 			});
 			
-			//con intro se activa el btnIniciar
+			//con intro se activa el btnRegistrar
 			btnRegistrarNew.addKeyListener(new KeyAdapter() {
 				@Override
 				public void keyPressed(KeyEvent e) {
@@ -260,29 +260,37 @@ public class RegistrarView {
 			String pin2 = new String (pfPIN2.getPassword());
 			boolean existe = false; 
 			
-			//Si las dos contraseñas instroducidas son distintas, lanzará mensaje y no se hará nada mas
-			if (!pin.equals(pin2)) {												
-				JOptionPane.showMessageDialog(btnRegistrarNew, "Las constraseñas no son iguales, vuelve a intentarlo.");
-			//Si son iguales, valorará que no exista ningun username igual y además te indicará cuales son tus opciones en ese caso
-			} else {		
-				for(int i = 0; i < Almacen.lista_clientes.size(); i++) {
-					if(Almacen.lista_clientes.get(i).getDni().equals(dni)) {
-						JOptionPane.showMessageDialog(btnRegistrarNew, "Este usuario ya existe. \nCambie de username o vaya al Login");
-						existe = true;
-					}else {
-						//El usuario no exite y además sus contraseñas son iguales, pasariamos a lo siguiente:
-						existe = false;
-					}
+			if(!nombre.isEmpty() || !apellidos.isEmpty() || !dni.isEmpty() || tfSueldo.getText().isEmpty() || !pin.isEmpty() || !pin2.isEmpty()){
+				
+				//Si las dos contraseñas instroducidas son distintas, lanzará mensaje y no se hará nada mas
+				if (!pin.equals(pin2)) {												
+					JOptionPane.showMessageDialog(btnRegistrarNew, "Las constraseñas no son iguales, vuelve a intentarlo.");
+				//Si son iguales, valorará que no exista ningun username igual y además te indicará cuales son tus opciones en ese caso
+				} else {		
+					for(int i = 0; i < Almacen.lista_clientes.size(); i++) {
+						if(Almacen.lista_clientes.get(i).getDni().equals(dni)) {
+							existe = true;
+						}
+					}	
+						//Se puede crear el usuario por lo que se añade al arrayList de users que tenemos en Almacén
+						if(existe == false) {
+							Almacen.lista_clientes.add(new Cliente(nombre, apellidos, dni, sueldo, pin));
+							JOptionPane.showMessageDialog(btnRegistrarNew, "Usuario creado con éxito. \nBienvenidx " + nombre);
+							//Además nos llevará a la página de LoginView para pode iniciar sesión.
+							frameRegistrarView.dispose();
+							parent.setVisible(true);
+						
+					}												
 				}	
-					//Se puede crear el usuario por lo que se añade al arrayList de users que tenemos en Almacén
-					if(existe == false) {
-						Almacen.lista_clientes.add(new Cliente(nombre, apellidos, dni, sueldo, pin));
-						JOptionPane.showMessageDialog(btnRegistrarNew, "Usuario creado con éxito. \nBienvenidx " + nombre);
-						//Además nos llevará a la página de LoginView para pode iniciar sesión.
-						frameRegistrarView.dispose();
-						parent.setVisible(true);
-					
-				}												
-			}					
+				
+			} else {
+				JOptionPane.showMessageDialog(btnRegistrarNew, "RELLENE TODOS LOS CAMPOS");
+			}
+			
+			if (existe) {
+				JOptionPane.showMessageDialog(btnRegistrarNew, "Este usuario ya existe.");
+			}
 		}
+		
+		
 }

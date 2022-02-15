@@ -380,12 +380,15 @@ public class BancaView {
 						
 						double saldoActual = cliente.getCuenta().getSaldo();
 						double sueldoSacar = Double.parseDouble(lblCantidad.getText());
-						
-						cliente.getCuenta().setSaldo(saldoActual - sueldoSacar);
-						lblSaldo1.setText(String.valueOf(saldoActual - sueldoSacar));	
-						JOptionPane.showMessageDialog(btnSacar, "           CANTIDAD SACADA CON ÉXITO.");
-						PantallaMenu.setVisible(true);
-						PanelDinero.setVisible(false);
+						if(sueldoSacar <= saldoActual) {
+							cliente.getCuenta().setSaldo(saldoActual - sueldoSacar);
+							lblSaldo1.setText(String.valueOf(saldoActual - sueldoSacar));	
+							JOptionPane.showMessageDialog(btnSacar, "           CANTIDAD SACADA CON ÉXITO.");
+							PantallaMenu.setVisible(true);
+							PanelDinero.setVisible(false);
+						} else {
+							JOptionPane.showMessageDialog(btnSacar, "           NO CUENTAS CON ESA CANTIDAD.");
+						}
 					}else {
 						JOptionPane.showMessageDialog(btnSacar, "           CANTIDAD INSUFICIENTE.");
 					}

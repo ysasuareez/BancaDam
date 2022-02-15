@@ -169,7 +169,7 @@ public class RegistrarView {
 		Pantalla.add(lblSueldo);
 		
 		btnRegistrarNew = new JButton("REGISTRAR");
-		btnRegistrarNew.setBounds(62, 318, 113, 31);
+		btnRegistrarNew.setBounds(104, 298, 180, 24);
 		Pantalla.add(btnRegistrarNew);
 		btnRegistrarNew.setForeground(new Color(255, 255, 255));
 		btnRegistrarNew.setFont(new Font("Alef", Font.BOLD, 14));
@@ -179,7 +179,7 @@ public class RegistrarView {
 		
 		//BOTON registrar que añadira los campos en el arraylist
 		btnVolverLogin = new JButton("VOLVER");
-		btnVolverLogin.setBounds(212, 318, 113, 31);
+		btnVolverLogin.setBounds(104, 332, 180, 24);
 		Pantalla.add(btnVolverLogin);
 		btnVolverLogin.setFont(new Font("Alef", Font.BOLD, 14));
 		btnVolverLogin.setForeground(new Color(255, 255, 255));

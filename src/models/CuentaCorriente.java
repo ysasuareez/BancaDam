@@ -1,5 +1,7 @@
 package models;
 
+import javax.swing.JOptionPane;
+
 import utils.Almacen;
 
 public class CuentaCorriente {
@@ -52,16 +54,22 @@ public class CuentaCorriente {
 	/*
 	 * MÉTODOS
 	 */
-	public void sumarCantidad(double cantidad) {
-		this.saldo += cantidad;
-	}
-	
-	public void restarCantidad(double cantidad) {
-		if(this.saldo >= cantidad) {
-			this.saldo -= cantidad;
+	public boolean dineroSufi(double cantidad) {
+		if (saldo > cantidad ) {	
+			return true;			
+		}else {
+			return false;
 		}
 	}
 		
+	public boolean hayDinero() {
+		if (saldo > 0) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
 		
 		
 	/*

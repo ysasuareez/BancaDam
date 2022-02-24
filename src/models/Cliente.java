@@ -1,6 +1,6 @@
 package models;
 
-
+import javax.swing.JOptionPane;
 
 public class Cliente {
 	
@@ -84,40 +84,55 @@ public class Cliente {
 	 * METODOS
 	 */
 	
-	public void cobrarSueldo() {
-		cuenta.sumarCantidad(sueldo);
+	public double cobrarSueldo() {
+
+		double saldoActual = cuenta.getSaldo();
+		double newSaldo = saldoActual + sueldo;
+		cuenta.setSaldo(newSaldo);
+		return newSaldo;
+							
 	}
 	
-	public void sacarDinero(double cantidad) {
-		cuenta.restarCantidad(cantidad);
-	}
+
 	
-	public void subirSueldo(double nuevoSueldo) {
-		setSueldo(nuevoSueldo);
+	public double sacarDinero(double cantidad) {				
+		
+			double saldoActual = cuenta.getSaldo();
+			double newSaldo = saldoActual - cantidad;
+			cuenta.setSaldo(newSaldo);			
+			return newSaldo;
+	}
+		
+			
+	
+	public int modificarDatos(String password, String sueldoNew) {		
+		
+		int resultado = 0;
+			
+		if(!password.isEmpty() && sueldoNew.isEmpty()) {
+			pin = password;
+			resultado = 1;
+		} else if (password.isEmpty() && !sueldoNew.isEmpty()) {
+			sueldo = Double.parseDouble(sueldoNew);
+			resultado = 2;
+		}else if(!password.isEmpty() && !sueldoNew.isEmpty()){
+			pin = password;
+			sueldo = Double.parseDouble(sueldoNew);
+			resultado = 3;
+		}else if(password.isEmpty() && sueldoNew.isEmpty()){
+			resultado = 4;
+		}
+		
+		return resultado;
+		
 	}
 
+	
 	
 	public void verInfo() {
 		System.out.print("  »» User Info [Nombre: " + nombre + " | Apellido: " + apellidos 
 						+ " | DNI: " + dni + " | Sueldo: " + sueldo + " | Saldo: " + cuenta.getSaldo() + "]\n");
 	}
-	
-	
-	
-	
-	
-
-
-	//toString
-	@Override
-	public String toString() {
-		return " [Nombre = " + nombre + " | DNI = " + dni + "]";
-	}
-	
-	
-	
-	
-	
-	
+		
 	
 }

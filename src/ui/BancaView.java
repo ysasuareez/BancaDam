@@ -25,6 +25,7 @@ import javax.swing.JPasswordField;
 import javax.swing.border.TitledBorder;
 
 import models.Cliente;
+import models.CuentaCorriente;
 
 import javax.swing.border.EtchedBorder;
 
@@ -244,47 +245,6 @@ public class BancaView {
 		PanelVerNum.add(btnVolver3);
 		
 		
-		//PANEL SACAR DINERO
-		PanelDinero = new JPanel();
-		PanelDinero.setVisible(false);
-		PanelDinero.setLayout(null);
-		PanelDinero.setBackground(Color.RED);
-		PanelDinero.setBounds(0, 66, 397, 390);
-		frameBancaView.getContentPane().add(PanelDinero);
-		
-		Pantalla2 = new JPanel();
-		Pantalla2.setLayout(null);
-		Pantalla2.setForeground(Color.BLACK);
-		Pantalla2.setBorder(null);
-		Pantalla2.setBackground(Color.WHITE);
-		Pantalla2.setBounds(0, 0, 397, 390);
-		PanelDinero.add(Pantalla2);
-		
-		lblCantidad = new JTextField();
-		lblCantidad.setColumns(10);
-		lblCantidad.setBounds(119, 156, 159, 37);
-		Pantalla2.add(lblCantidad);
-		
-		lblPregunta = new JLabel("CANTIDAD A SACAR:");
-		lblPregunta.setFont(new Font("Alef", Font.PLAIN, 16));
-		lblPregunta.setBounds(119, 107, 167, 44);
-		Pantalla2.add(lblPregunta);
-		
-		btnVolverBanca = new JButton("VOLVER");
-		btnVolverBanca.setForeground(Color.WHITE);
-		btnVolverBanca.setFont(new Font("Alef", Font.BOLD, 14));
-		btnVolverBanca.setBackground(new Color(102, 153, 204));
-		btnVolverBanca.setBounds(212, 219, 113, 31);
-		Pantalla2.add(btnVolverBanca);
-		
-		btnSacar = new JButton("SACAR");
-		btnSacar.setForeground(Color.WHITE);
-		btnSacar.setFont(new Font("Alef", Font.BOLD, 14));
-		btnSacar.setBackground(new Color(102, 153, 204));
-		btnSacar.setBounds(78, 219, 113, 31);
-		Pantalla2.add(btnSacar);
-		
-		
 		
 		//PANEL MODIFICAR DATOS
 		PantallaModificar = new JPanel();
@@ -328,6 +288,47 @@ public class BancaView {
 		pfContraNew = new JPasswordField();
 		pfContraNew.setBounds(104, 79, 188, 37);
 		PantallaModificar.add(pfContraNew);
+		
+		
+		//PANEL SACAR DINERO
+		PanelDinero = new JPanel();
+		PanelDinero.setVisible(false);
+		PanelDinero.setLayout(null);
+		PanelDinero.setBackground(Color.RED);
+		PanelDinero.setBounds(0, 66, 397, 390);
+		frameBancaView.getContentPane().add(PanelDinero);
+		
+		Pantalla2 = new JPanel();
+		Pantalla2.setLayout(null);
+		Pantalla2.setForeground(Color.BLACK);
+		Pantalla2.setBorder(null);
+		Pantalla2.setBackground(Color.WHITE);
+		Pantalla2.setBounds(0, 0, 397, 390);
+		PanelDinero.add(Pantalla2);
+		
+		lblCantidad = new JTextField();
+		lblCantidad.setColumns(10);
+		lblCantidad.setBounds(119, 156, 159, 37);
+		Pantalla2.add(lblCantidad);
+		
+		lblPregunta = new JLabel("CANTIDAD A SACAR:");
+		lblPregunta.setFont(new Font("Alef", Font.PLAIN, 16));
+		lblPregunta.setBounds(119, 107, 167, 44);
+		Pantalla2.add(lblPregunta);
+		
+		btnVolverBanca = new JButton("VOLVER");
+		btnVolverBanca.setForeground(Color.WHITE);
+		btnVolverBanca.setFont(new Font("Alef", Font.BOLD, 14));
+		btnVolverBanca.setBackground(new Color(102, 153, 204));
+		btnVolverBanca.setBounds(212, 219, 113, 31);
+		Pantalla2.add(btnVolverBanca);
+		
+		btnSacar = new JButton("SACAR");
+		btnSacar.setForeground(Color.WHITE);
+		btnSacar.setFont(new Font("Alef", Font.BOLD, 14));
+		btnSacar.setBackground(new Color(102, 153, 204));
+		btnSacar.setBounds(78, 219, 113, 31);
+		Pantalla2.add(btnSacar);
 
 	}
 	
@@ -345,63 +346,49 @@ public class BancaView {
 				}
 			});
 			
-			
+			//BOTON COBRAR SUELDO
 			btnCobrarSueldo.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
-				
-					double saldoActual = cliente.getCuenta().getSaldo();
-					double sueldo = cliente.getSueldo();
+					lblSaldo1.setText(String.valueOf(cliente.cobrarSueldo()));
+					JOptionPane.showMessageDialog(btnCobrarSueldo, "           SUELDO COBRADO CON ÉXITO.");	
 					
-					cliente.getCuenta().setSaldo(saldoActual + sueldo);
-					JOptionPane.showMessageDialog(btnCobrarSueldo, "           SUELDO COBRADO CON ÉXITO.");
-					lblSaldo1.setText(String.valueOf(saldoActual + sueldo));					
 				}
 			});
-			
-
-			btnSacarDinero.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {		
-				
-					if (cliente.getCuenta().getSaldo() > 0) {									
-						PantallaMenu.setVisible(false);
-						PanelDinero.setVisible(true);
-					}else {
-						JOptionPane.showMessageDialog(btnSacar, "           CANTIDAD INSUFICIENTE.");	
-					}
-				}
-			});
-			
 			
 			//BOTONES SACAR DINERO
-			btnSacar.addActionListener(new ActionListener() {
-				public void actionPerformed(ActionEvent e) {
+			btnSacarDinero.addActionListener(new ActionListener() {
+				public void actionPerformed(ActionEvent e) {		
+					double cantidad = Double.valueOf(lblCantidad.getText());	
+
+					CuentaCorriente cuenta = cliente.getCuenta();
+					PantallaMenu.setVisible(false);
+					PanelDinero.setVisible(true);
 					
-					if (cliente.getCuenta().getSaldo() > 0) {
-						
-						double saldoActual = cliente.getCuenta().getSaldo();
-						double sueldoSacar = Double.parseDouble(lblCantidad.getText());
-						if(sueldoSacar <= saldoActual) {
-							cliente.getCuenta().setSaldo(saldoActual - sueldoSacar);
-							lblSaldo1.setText(String.valueOf(saldoActual - sueldoSacar));	
-							JOptionPane.showMessageDialog(btnSacar, "           CANTIDAD SACADA CON ÉXITO.");
-							PantallaMenu.setVisible(true);
-							PanelDinero.setVisible(false);
-						} else {
-							JOptionPane.showMessageDialog(btnSacar, "           NO CUENTAS CON ESA CANTIDAD.");
-						}
-					}else {
-						JOptionPane.showMessageDialog(btnSacar, "           CANTIDAD INSUFICIENTE.");
+					if(cuenta.hayDinero()) {
+						if(cuenta.dineroSufi(cantidad)) {
+							cliente.sacarDinero(cantidad);
+							JOptionPane.showMessageDialog(btnSacarDinero, "          CANTIDAD SACADA CON ÉXITO.");	
+						}else {
+							JOptionPane.showMessageDialog(btnSacarDinero, "          NO POSEE DICHA CANTIDAD.");														
+						}					
+					}else{
+						JOptionPane.showMessageDialog(btnSacarDinero, "           NO TIENE DINERO. ");							
 					}
+	
 				}
 			});
+			
 			
 			btnVolverBanca.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
+					
 					PantallaMenu.setVisible(true);
 					PanelDinero.setVisible(false);
 				}
 			});
 			
+			
+			//BOTONES VER DATOS
 			btnVerDatos.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					PantallaMenu.setVisible(false);
@@ -416,7 +403,8 @@ public class BancaView {
 				}
 			});
 			
-
+			
+			//BOTONES MODIFICAR
 			btnModificar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					PantallaMenu.setVisible(false);
@@ -427,24 +415,23 @@ public class BancaView {
 			btnGuardar.addActionListener(new ActionListener() {
 				public void actionPerformed(ActionEvent e) {
 					String password = new String (pfContraNew.getPassword());
+					String sueldoNew = tfSueldoNew.getText();
 					
-					if(!password.isEmpty() && tfSueldoNew.getText().isEmpty()) {
-						cliente.setPin(password);
+					int opciones = cliente.modificarDatos(password, sueldoNew);
+					
+					if(opciones == 1) {
 						JOptionPane.showMessageDialog(btnGuardar, "PIN MODIFICADO CON ÉXITO");
 						PantallaMenu.setVisible(true);
 						PantallaModificar.setVisible(false);
-					} else if (password.isEmpty() && !tfSueldoNew.getText().isEmpty()) {
-						cliente.setSueldo(Double.parseDouble(tfSueldoNew.getText()));
+					} else if(opciones == 2) {
 						JOptionPane.showMessageDialog(btnGuardar, "SUELDO MODIFICADO CON ÉXITO");
 						PantallaMenu.setVisible(true);
 						PantallaModificar.setVisible(false);
-					}else if(!password.isEmpty() && !tfSueldoNew.getText().isEmpty()){
-						cliente.setPin(password);
-						cliente.setSueldo(Double.parseDouble(tfSueldoNew.getText()));
+					}else if(opciones == 3){
 						JOptionPane.showMessageDialog(btnGuardar, "PIN Y SUELDO MODIFICADOS CON ÉXITO");
 						PantallaMenu.setVisible(true);
 						PantallaModificar.setVisible(false);
-					}else if(password.isEmpty() && tfSueldoNew.getText().isEmpty()){
+					}else if(opciones == 4){
 						JOptionPane.showMessageDialog(btnGuardar, "Rellene el/los campos que desea modificar");
 					}
 						
@@ -460,6 +447,7 @@ public class BancaView {
 			});
 		
 	}
+	
 }
 
 
